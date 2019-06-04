@@ -5,7 +5,8 @@ public class Slot {
 	private boolean prenotato;
 
 	public Slot() {
-		auto=null;
+		auto = null;
+		prenotato = false;
 	}
 	
 	public Automobile prelievo() {
