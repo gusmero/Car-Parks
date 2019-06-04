@@ -3,19 +3,24 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class Parcheggio {
 
-	private Slot [] slots;
-	private ArrayList<Parcheggiatore>parcheggiatoriLiberi;
-	private ArrayBlockingQueue coda;
+	private Slot[] slots;
+	private ArrayList<Parcheggiatore> parcheggiatoriLiberi;
+	private ArrayBlockingQueue<Ticket> coda;
 	
-	public Parcheggio(Slot[] slots, ArrayList<Parcheggiatore> parcheggiatoriLiberi, ArrayBlockingQueue coda) {
-		this.slots = slots;
-		this.parcheggiatoriLiberi = parcheggiatoriLiberi;
-		this.coda = coda;
+	public Parcheggio(int nSlot, int nParcheggiatori) {
+		slots = new Slot[nSlot];
+		parcheggiatoriLiberi = new ArrayList<>(nParcheggiatori);
+		coda = new ArrayBlockingQueue<>(Integer.MAX_INT);
 	}
 	
 	
 	public boolean disponibile () {
-		for
+		boolean disponibile = false;
+		for (int i = 0; !disponibile && i < slots.length; i++)
+			if (!slots[i].isOccupato())
+				disponibile = true;
+		
+		return disponibile;
 	}
 	
 }
