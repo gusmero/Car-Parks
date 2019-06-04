@@ -10,13 +10,15 @@ public class Slot {
 	}
 	
 	public Automobile prelievo() {
+		prenotato = false;
 		Automobile auto=this.auto;
 		this.auto=null;
 		return auto;
 	}
 
 	public void parcheggia(Automobile auto) {
-		this.auto=auto;
+		prenotato = true;
+		this.auto = auto;
 	}
 	
 	public boolean libero() {
@@ -30,7 +32,5 @@ public class Slot {
 	public void setPrenotato(boolean prenotato) {
 		this.prenotato = prenotato;
 	}
-	
-	
 }
 
