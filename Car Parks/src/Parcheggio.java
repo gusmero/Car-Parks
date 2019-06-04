@@ -11,6 +11,9 @@ public class Parcheggio {
 		slots = new Slot[nSlot];
 		parcheggiatoriLiberi = new ArrayList<>(nParcheggiatori);
 		coda = new ArrayBlockingQueue<>(Integer.MAX_INT);
+		
+		for (int i = 0; i < slots.length; i++)
+			slots[i] = new Slot();
 	}
 	
 	
