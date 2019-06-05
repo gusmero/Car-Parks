@@ -1,29 +1,48 @@
-import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Parcheggio {
 
 	private Slot[] slots;
-	private ArrayList<Parcheggiatore> parcheggiatoriLiberi;
-	private ArrayBlockingQueue<Ticket> coda;
+	private ArrayBlockingQueue<Automobilista> coda;
 	
 	public Parcheggio(int nSlot, int nParcheggiatori) {
 		slots = new Slot[nSlot];
-		parcheggiatoriLiberi = new ArrayList<>(nParcheggiatori);
-		coda = new ArrayBlockingQueue<>(Integer.MAX_INT);
+		coda = new ArrayBlockingQueue<>(Integer.MAX_VALUE);
 		
 		for (int i = 0; i < slots.length; i++)
 			slots[i] = new Slot();
+		
+		for (int i = 0; i < nParcheggiatori; i++)
+			new Parcheggiatore("Parcheggiatore" + i, this).start();
 	}
 	
+	public synchronized void accoda(Automobilista automobilista) {
+		coda.add(automobilista);
+	}
 	
-	public boolean disponibile () {
+	public synchronized Automobilista rimuovi() {
+		return coda.poll();
+	}
+	
+	public synchronized boolean slotLibero(int idSlot) {
+		return slots[idSlot].isLibero();
+	}
+	
+	public synchronized void parcheggia(Automobile auto, int idSlot) {
+		slots[idSlot].parcheggia(auto);
+	}
+	
+	public synchronized Automobile ritiraAuto(int idSlot) {
+		return slots[idSlot].ritiraAuto();
+	}
+	
+	public synchronized boolean disponibile() {
 		boolean disponibile = false;
 		for (int i = 0; !disponibile && i < slots.length; i++)
-			if (!slots[i].isOccupato())
+			if (!slots[i].isPrenotato())
 				disponibile = true;
-		
 		return disponibile;
 	}
+	
 	
 }

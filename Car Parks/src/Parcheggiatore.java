@@ -1,26 +1,26 @@
-import java.util.ArrayList;
 
-public class Parcheggiatore {
+public class Parcheggiatore extends Thread {
 
-	private String nome;
-
-	public Parcheggiatore(String nome) {
-		this.nome = nome;
+	private Parcheggio parcheggio;
+	
+	public Parcheggiatore(String nome, Parcheggio parcheggio) {
+		super(nome);
+		this.parcheggio = parcheggio;
 	}
 	
-
-	public String getNome() {
-		return nome;
+	public void run() {
+		while (true) {
+			Automobilista automob = parcheggio.rimuovi();
+			
+			if(automob != null) {
+				int idSlot = automob.getTicket().getIdSlot();
+				
+				if (parcheggio.slotLibero(idSlot))
+					parcheggio.parcheggia(automob.lasciaAutomobile(), idSlot);
+				else
+					automob.ritira(parcheggio.ritiraAuto(idSlot));
+			}
+		}
 	}
-	
-	public void parcheggia(Automobile auto , Ticket ticket, Slot[] listaSlot){
-		listaSlot[ticket.getIdSlot()].parcheggia(auto);
-	}
-	
-	public Automobile restituire(Ticket ticket , Slot[] listaSlot) {
-		return listaSlot[ticket.getIdSlot()].prelievo();
-	}
-	
-	
 	
 }

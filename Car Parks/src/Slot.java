@@ -2,6 +2,7 @@
 public class Slot {
 
 	private Automobile auto;
+	//provare a valutare di inserire un unico campo libero (che implica che non sia prenotato e occupato ).
 	private boolean prenotato;
 
 	public Slot() {
@@ -9,7 +10,7 @@ public class Slot {
 		prenotato = false;
 	}
 	
-	public Automobile prelievo() {
+	public Automobile ritiraAuto() {
 		prenotato = false;
 		Automobile auto=this.auto;
 		this.auto=null;
@@ -21,7 +22,7 @@ public class Slot {
 		this.auto = auto;
 	}
 	
-	public boolean libero() {
+	public boolean isLibero() {
 		return auto==null;
 	}
 
