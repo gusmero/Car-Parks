@@ -10,16 +10,16 @@ public class Parcheggiatore extends Thread {
 	
 	public void run() {
 		while (true) {
-			synchronized(parcheggio) {
-				Automobilista automob = parcheggio.rimuovi();
+			Automobilista automob = parcheggio.rimuovi();
+			
+			if(automob != null) {
+				int idSlot = automob.getTicket().getIdSlot();
 				
-				if(automob != null) {
-					int idSlot = automob.getTicket().getIdSlot();
-					
-					if (parcheggio.slotLibero(idSlot))
-						parcheggio.parcheggia(automob.lasciaAutomobile(), idSlot);
-					else
-						automob.ritira(parcheggio.ritiraAuto(idSlot));
+				if (parcheggio.slotLibero(idSlot))
+					parcheggio.parcheggia(automob.lasciaAutomobile(), idSlot);
+				else {
+					automob.ritira(parcheggio.ritiraAuto(idSlot));
+					automob.strappaTicket();
 				}
 			}
 		}

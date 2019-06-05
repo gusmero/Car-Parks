@@ -4,8 +4,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 
 public class Parcheggio {
 
-	private Slot[] slots;
-	private ArrayBlockingQueue<Automobilista> coda;
+	private volatile Slot[] slots;
+	private volatile ArrayBlockingQueue<Automobilista> coda;
 	private int idTicket;
 	
 	public Parcheggio(int nSlot, int nParcheggiatori) {
@@ -22,8 +22,12 @@ public class Parcheggio {
 	
 	public synchronized void accoda(Automobilista automobilista) {
 		int i;
-		for (i = 0; i < slots.length && slots[i].isPrenotato(); i++);
-		accoda(automobilista, i);
+		
+		if (automobilista.getTicket() == null) {
+			for (i = 0; i < slots.length && slots[i].isPrenotato(); i++);
+			accoda(automobilista, i);
+		} else 
+			coda.add(automobilista);
 	}
 	
 	public synchronized void accoda(Automobilista automobilista, int idSlot) {
@@ -62,17 +66,18 @@ public class Parcheggio {
 	}
 	
 	public static void main(String[] args) {
-		Parcheggio park = new Parcheggio(10, 3);
-		Automobilista[] automobilisti = new Automobilista[10];
+		Parcheggio park = new Parcheggio(3, 3);
+		Automobilista[] automobilisti = new Automobilista[3];
 		Random r = new Random();
 		
-		for (int i = 0; i < automobilisti.length; i++) {
+		for (int i = 0; i < automobilisti.length; i++)
 			automobilisti[i] = new Automobilista(new Automobile(""+i));
-		}
 		
 		System.out.println(park);
-		for (int i = 0; i < 200 && park.disponibile(); i++) {
-			park.accoda(automobilisti[r.nextInt(automobilisti.length)]);
+		for (int i = 0; i < 6; i++) {
+			Automobilista x = automobilisti[r.nextInt(automobilisti.length)];
+			System.out.println(x);
+			park.accoda(x);
 			System.out.println(park);
 		}
 	}

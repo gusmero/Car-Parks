@@ -1,8 +1,8 @@
 
 public class Automobilista {
 
-	private Automobile automobile;
-	private Ticket ticket;
+	private volatile Automobile automobile;
+	private volatile Ticket ticket;
 	
 	public Automobilista(Automobile automobile) {
 		this.automobile = automobile;
@@ -17,13 +17,17 @@ public class Automobilista {
 		return ticket;
 	}
 	
+	public void strappaTicket() {
+		ticket = null;
+	}
+	
 	public Automobile lasciaAutomobile() {
 		Automobile auto = automobile;
 		automobile=null;
 		return auto;
 	}
 	
-	public void ritira (Automobile auto) {
+	public void ritira(Automobile auto) {
 		automobile = auto;
 	}
 	
@@ -31,5 +35,4 @@ public class Automobilista {
 	public String toString() {
 		return "Automobilista [automobile=" + automobile + ", ticket=" + ticket + "]";
 	}
-	
 }
