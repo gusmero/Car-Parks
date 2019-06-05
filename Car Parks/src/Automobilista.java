@@ -26,4 +26,10 @@ public class Automobilista {
 	public void ritira (Automobile auto) {
 		automobile = auto;
 	}
+	
+	@Override
+	public String toString() {
+		return "Automobilista [automobile=" + automobile + ", ticket=" + ticket + "]";
+	}
+	
 }

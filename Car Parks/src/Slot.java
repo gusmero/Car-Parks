@@ -18,7 +18,6 @@ public class Slot {
 	}
 
 	public void parcheggia(Automobile auto) {
-		prenotato = true;
 		this.auto = auto;
 	}
 	
@@ -32,6 +31,11 @@ public class Slot {
 
 	public void setPrenotato(boolean prenotato) {
 		this.prenotato = prenotato;
+	}
+
+	@Override
+	public String toString() {
+		return "Slot [auto=" + auto + ", prenotato=" + prenotato + "]";
 	}
 }
 

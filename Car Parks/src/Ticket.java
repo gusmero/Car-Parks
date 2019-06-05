@@ -16,8 +16,10 @@ public class Ticket {
 	public int getIdSlot() {
 		return idSlot;
 	}
-
 	
-	
+	@Override
+	public String toString() {
+		return "Ticket [codice=" + codice + ", idSlot=" + idSlot + "]";
+	}
 	
 }

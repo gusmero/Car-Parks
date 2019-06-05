@@ -10,6 +10,9 @@ public class Automobile {
 	public String getTarga() {
 		return targa;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return targa;
+	}
 }
