@@ -4,7 +4,6 @@ public class Automobilista {
 	private Automobile automobile;
 	private Ticket ticket;
 	
-	
 	public Automobilista(Automobile automobile) {
 		this.automobile = automobile;
 		ticket = null;
@@ -27,5 +26,4 @@ public class Automobilista {
 	public void ritira (Automobile auto) {
 		automobile = auto;
 	}
-	
 }
