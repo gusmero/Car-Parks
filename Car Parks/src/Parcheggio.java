@@ -4,8 +4,10 @@ public class Parcheggio {
 
 	private Slot[] slots;
 	private ArrayBlockingQueue<Automobilista> coda;
+	private int idTicket;
 	
 	public Parcheggio(int nSlot, int nParcheggiatori) {
+		idTicket = 0;
 		slots = new Slot[nSlot];
 		coda = new ArrayBlockingQueue<>(Integer.MAX_VALUE);
 		
@@ -17,6 +19,13 @@ public class Parcheggio {
 	}
 	
 	public synchronized void accoda(Automobilista automobilista) {
+		int i;
+		for (i = 0; i < slots.length && slots[i].isPrenotato(); i++);
+		accoda(automobilista, i);
+	}
+	
+	public synchronized void accoda(Automobilista automobilista, int idSlot) {
+		automobilista.ritiraTicket(new Ticket(idTicket++, idSlot));
 		coda.add(automobilista);
 	}
 	
